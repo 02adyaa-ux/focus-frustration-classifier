@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Focus & Frustration Classifier</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace" aria-label="Focus and frustration classifier">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">NLP signal lab</p>
+            <h1>Focus & Frustration Classifier</h1>
+          </div>
+          <div class="model-status" aria-label="Classifier mode">
+            <span class="pulse"></span>
+            Weighted NLP ensemble
+          </div>
+        </header>
+
+        <div class="layout">
+          <section class="input-panel" aria-labelledby="input-title">
+            <div class="panel-heading">
+              <h2 id="input-title">Text Sample</h2>
+              <button class="icon-button" id="clearButton" type="button" aria-label="Clear text" title="Clear">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M3 6h18M8 6V4h8v2m-1 4v8M9 10v8M5 6l1 15h12l1-15" />
+                </svg>
+              </button>
+            </div>
+            <textarea
+              id="sampleText"
+              spellcheck="true"
+              aria-label="Text to classify"
+              placeholder="Paste a journal entry, support message, meeting note, or chat snippet..."
+            ></textarea>
+            <div class="controls">
+              <button id="classifyButton" type="button">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 12h7m0 0L8 9m3 3-3 3m4-8h8m-8 5h8m-8 5h8" />
+                </svg>
+                Classify
+              </button>
+              <select id="exampleSelect" aria-label="Load example">
+                <option value="">Load example</option>
+                <option value="deep-work">Deep work</option>
+                <option value="blocked">Blocked</option>
+                <option value="mixed">Mixed state</option>
+                <option value="deadline">Deadline pressure</option>
+                <option value="rumination">Rumination</option>
+                <option value="neutral">Neutral note</option>
+              </select>
+            </div>
+            <div class="calibration" aria-label="Model calibration">
+              <label>
+                <span>Focus sensitivity</span>
+                <input id="focusSensitivity" type="range" min="70" max="140" value="100" />
+              </label>
+              <label>
+                <span>Frustration sensitivity</span>
+                <input id="frustrationSensitivity" type="range" min="70" max="140" value="100" />
+              </label>
+            </div>
+          </section>
+
+          <section class="result-panel" aria-live="polite" aria-labelledby="result-title">
+            <div class="panel-heading">
+              <h2 id="result-title">Classification</h2>
+              <span id="confidenceLabel" class="confidence">Ready</span>
+            </div>
+
+            <div class="verdict" id="verdict">
+              <span class="verdict-label">Awaiting text</span>
+              <span class="verdict-score">0%</span>
+            </div>
+
+            <div class="meter-group" aria-label="Signal scores">
+              <div class="meter-row">
+                <div class="meter-label">
+                  <span>Focus</span>
+                  <strong id="focusScore">0</strong>
+                </div>
+                <div class="meter"><span id="focusBar"></span></div>
+              </div>
+              <div class="meter-row">
+                <div class="meter-label">
+                  <span>Frustration</span>
+                  <strong id="frustrationScore">0</strong>
+                </div>
+                <div class="meter"><span id="frustrationBar"></span></div>
+              </div>
+              <div class="meter-row">
+                <div class="meter-label">
+                  <span>Clarity</span>
+                  <strong id="clarityScore">0</strong>
+                </div>
+                <div class="meter"><span id="clarityBar"></span></div>
+              </div>
+              <div class="meter-row">
+                <div class="meter-label">
+                  <span>Cognitive Load</span>
+                  <strong id="loadScore">0</strong>
+                </div>
+                <div class="meter"><span id="loadBar"></span></div>
+              </div>
+            </div>
+
+            <div class="summary-grid">
+              <div>
+                <span class="mini-label">Tone</span>
+                <strong id="toneValue">Unknown</strong>
+              </div>
+              <div>
+                <span class="mini-label">Intent</span>
+                <strong id="intentValue">Unknown</strong>
+              </div>
+              <div>
+                <span class="mini-label">Urgency</span>
+                <strong id="urgencyValue">Unknown</strong>
+              </div>
+              <div>
+                <span class="mini-label">Complexity</span>
+                <strong id="complexityValue">Unknown</strong>
+              </div>
+              <div>
+                <span class="mini-label">Modality</span>
+                <strong id="modalityValue">Unknown</strong>
+              </div>
+              <div>
+                <span class="mini-label">Sentences</span>
+                <strong id="sentenceValue">0</strong>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="insight-strip" aria-label="Classifier evidence">
+          <div class="evidence-panel">
+            <h2>Signals Found</h2>
+            <div id="signalList" class="chips"></div>
+          </div>
+          <div class="evidence-panel">
+            <h2>Highlighted Text</h2>
+            <div id="highlightedText" class="highlighted">Your highlighted evidence will appear here.</div>
+          </div>
+        </section>
+
+        <section class="advanced-strip" aria-label="Advanced NLP analysis">
+          <div class="advanced-panel">
+            <h2>Feature Vector</h2>
+            <div id="featureGrid" class="feature-grid"></div>
+          </div>
+          <div class="advanced-panel">
+            <h2>Sentence Diagnostics</h2>
+            <div id="sentenceDiagnostics" class="sentence-diagnostics"></div>
+          </div>
+          <div class="advanced-panel code-panel">
+            <h2>Dynamic Model Trace</h2>
+            <pre><code id="modelTrace">{}</code></pre>
+          </div>
+        </section>
+      </section>
+
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
